@@ -23,7 +23,9 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = require('socket-io')(server);
+var io = require('socket.io')(server, {
+  transports: ['websocket']
+});
 var chatServer = require('../chatServer');
 chatServer(io);
 

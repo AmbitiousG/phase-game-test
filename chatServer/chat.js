@@ -9,6 +9,7 @@ class chatServer{
       secret: secretkey,
       handshake: true
     }));
+    // console.log(this.io)
 
     this.init();
   }
