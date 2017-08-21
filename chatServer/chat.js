@@ -5,11 +5,10 @@ class chatServer{
   constructor(io) {
     this.io = io;
     this.clients = [];
-    io.use('authorization', socketioJwt.authorize({
+    io.use(socketioJwt.authorize({
       secret: secretkey,
       handshake: true
     }));
-    // console.log(this.io)
 
     this.init();
   }
@@ -22,7 +21,7 @@ class chatServer{
   }
 
   addClient(socket) {
-    console.log(socket);
+    // console.log(socket);
     this.clients.push(socket);
   }
 }
