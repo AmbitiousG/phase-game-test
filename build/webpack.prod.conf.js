@@ -64,20 +64,20 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
-    new HtmlWebpackIncludeAssetsPlugin({
-      assets: process.env.NODE_ENV === 'production' ? [
-      // {path: 'https://cdn.jsdelivr.net/g/lodash@4.17.4,vue@2.3.2,vue.resource@1.3.1,vue.router@2.5.3,vuex@2.3.0', type: 'js'}
-      // 'https://cdn.jsdelivr.net/npm/element-ui@1.4.1/lib/theme-default/index.css',
-      'https://cdn.jsdelivr.net/npm/vue@2.4.2/dist/vue.min.js',
-      'https://cdn.jsdelivr.net/npm/vue-router@2.7.0/dist/vue-router.min.js',
-      'https://cdn.jsdelivr.net/npm/vuex@2.3.0/dist/vuex.min.js',
-      'https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js',
-      // 'https://cdn.jsdelivr.net/npm/element-ui@1.4.1/lib/index.js',
-      {path: 'https://cdn.jsdelivr.net/g/lodash@4.17.4,vue.resource@1.3.1', type: 'js'}
-      ] : [],
-      append: false,
-      publicPath: '',
-    }),
+    // new HtmlWebpackIncludeAssetsPlugin({
+    //   assets: process.env.NODE_ENV === 'production' ? [
+    //   // {path: 'https://cdn.jsdelivr.net/g/lodash@4.17.4,vue@2.3.2,vue.resource@1.3.1,vue.router@2.5.3,vuex@2.3.0', type: 'js'}
+    //   // 'https://cdn.jsdelivr.net/npm/element-ui@1.4.1/lib/theme-default/index.css',
+    //   'https://cdn.jsdelivr.net/npm/vue@2.4.2/dist/vue.min.js',
+    //   'https://cdn.jsdelivr.net/npm/vue-router@2.7.0/dist/vue-router.min.js',
+    //   'https://cdn.jsdelivr.net/npm/vuex@2.3.0/dist/vuex.min.js',
+    //   'https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js',
+    //   // 'https://cdn.jsdelivr.net/npm/element-ui@1.4.1/lib/index.js',
+    //   {path: 'https://cdn.jsdelivr.net/g/lodash@4.17.4,vue.resource@1.3.1', type: 'js'}
+    //   ] : [],
+    //   append: false,
+    //   publicPath: '',
+    // }),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
