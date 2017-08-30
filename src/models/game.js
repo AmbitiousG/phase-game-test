@@ -1,5 +1,6 @@
 import NPC from './npc'
 import Player from './player'
+import Tank from './tank'
 import _ from 'lodash'
 import * as utils from './utils'
 
@@ -8,6 +9,7 @@ export default class Game{
     this.npcs = [];
     this.player = null;
     this.cursors = null;
+    this.tank = null;
     // this.
     this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
       preload: () => {
@@ -25,13 +27,12 @@ export default class Game{
   preload() {
     this.game.load.spritesheet('man', 'static/character.png', 64, 64, -1, 1);
     this.game.load.spritesheet('woman', 'static/woman.png', 64, 64, -1, 1);
+    this.game.load.spritesheet('general', 'static/General Sprites.png', 16, 16);
   }
 
   create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    // this.npcs = this.game.add.group();
-    // this.npcs.enableBody = true;
     // this.npcs.push(new NPC(this.game,{
     //   x: 0,
     //   y: 0,
@@ -42,11 +43,11 @@ export default class Game{
     // }));
     this.player = new Player(this.game);
 
-    for (var i = 0; i < 8; i++) {
+    // for (var i = 0; i < 8; i++) {
       this.npcs.push(new NPC(this.game));
-    }
+    // }
 
-    // this.npcs.
+    this.tank = new Tank(this.game);
   }
 
   update() {
@@ -64,7 +65,13 @@ export default class Game{
         n2 && n2.restart();
         // npc.update()
       });
+
     }
+    this.game.physics.arcade.collide(this.tank.entity, _.map(this.npcs, 'npc'), (tank, npc1) => {
+      let n1 = _.find(this.npcs, {npc: npc1})
+      n1 && n1.restart();
+    })
+    this.tank.update();
     this.player.update();
 
   }

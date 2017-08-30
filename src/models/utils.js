@@ -45,7 +45,7 @@ for (var i = 1; i < 7; i++) {
     scFrameRight.push(ACTION_SC_RIGHT_FRAME_IDLE + i);
 }
 
-export const ACTION_SC_FRAMERATE = 10;
+export const ACTION_SC_FRAMERATE = 8;
 
 export const ACTION_SC_UP = 'specialCastUp';
 export const ACTION_SC_UP_FRAMES = scFrameUp;
