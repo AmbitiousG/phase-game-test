@@ -41,36 +41,26 @@ export default class NPC {
   }
 
   start() {
-    this.playDuration = this.game.rnd.integerInRange(2000, 3500);
-    let delay = this.game.rnd.integerInRange(500, 1500);
-    // this.walkTimer = this.game.time.create(false);
-    if(!this.game)
-      console.log('null');
-    this.game.time.events.add(delay, () => {
-      this.walk();
-      this.startTimer();
-    });
-  }
-
-  startTimer() {
-    if(this.timer)
+    if (this.timer)
       this.timer.stop(true);
-    
-    this.timer.loop(0, () => {
-      this.playDuration -= 15;
-      console.log(this.playDuration);
-    });
-    this.timer.start();
-  }
+    let delay = this.game.rnd.integerInRange(500, 1500);
+    this.playDuration = this.game.rnd.integerInRange(2000, 4000);
 
-  walk() {
-    let animName = this.game.rnd.pick([utils.ACTION_WALK_UP,
+    this.animName = this.game.rnd.pick([utils.ACTION_WALK_UP,
       utils.ACTION_WALK_LEFT,
       utils.ACTION_WALK_DOWN,
       utils.ACTION_WALK_RIGHT
     ]);
+    this.timer.loop(Phaser.Timer.QUARTER, () => {
+      this.playDuration -= Phaser.Timer.QUARTER;
+    });
+    this.timer.add(delay, () => {
+      this.playAnim(this.animName);
+    })
+    this.timer.start();
+  }
 
-    let delay = this.game.rnd.integerInRange(0, 2000);
+  playAnim(animName) {
     switch (animName) {
       case utils.ACTION_WALK_UP:
         this.npc.body.velocity.x = 0;
@@ -86,62 +76,50 @@ export default class NPC {
         break;
       case utils.ACTION_WALK_RIGHT:
         this.npc.body.velocity.x = 130;
-        this.npc.body.velocity.y = 0;
+        this.npc.body.velocity.y = 0; 
         break;
     }
     this.npc.play(animName);
+  }
+
+  restart() {
+    let anim = this.npc.animations.currentAnim;
+    anim.stop();
+    this.npc.body.velocity.x = 0;
+    this.npc.body.velocity.y = 0;
+    switch (anim.name) {
+      case utils.ACTION_WALK_UP:
+        this.npc.frame = utils.ACTION_WALK_UP_FRAME_IDLE;
+        break;
+      case utils.ACTION_WALK_LEFT:
+        this.npc.frame = utils.ACTION_WALK_LEFT_FRAME_IDLE;
+        break;
+      case utils.ACTION_WALK_DOWN:
+        this.npc.frame = utils.ACTION_WALK_DOWN_FRAME_IDLE;
+        break;
+      case utils.ACTION_WALK_RIGHT:
+        this.npc.frame = utils.ACTION_WALK_RIGHT_FRAME_IDLE;
+        break;
+    }
+
+    this.start();
   }
 
   update() {
     let anim = this.npc.animations.currentAnim;
     let animEnd = this.playDuration <= 0;
     if (anim.isPlaying) {
-      // console.log(this.npc.body.velocity.x + '|' + this.npc.body.velocity.y)
-      switch (anim.name) {
-        case utils.ACTION_WALK_UP:
-          if (animEnd || this.npc.y == 0) {
-            anim.stop();
-            // this.timer.destroy();
-            // this.game.time.events.destroy();
-            this.npc.body.velocity.y = 0;
-            this.npc.frame = utils.ACTION_WALK_UP_FRAME_IDLE;
-            this.start();
-          }
-          break;
-        case utils.ACTION_WALK_LEFT:
-          if (animEnd || this.npc.x == 0) {
-            anim.stop();
-            // this.timer.destroy();
-            // this.game.time.events.destroy();
-            this.npc.body.velocity.x = 0;
-            this.npc.frame = utils.ACTION_WALK_LEFT_FRAME_IDLE;
-            this.start();
-          }
-          break;
-        case utils.ACTION_WALK_DOWN:
-          if (animEnd || this.npc.y == this.game.world.height - this.npc.body.height) {
-            anim.stop();
-            // this.timer.destroy();
-            // this.game.time.events.destroy();
-            this.npc.body.velocity.y = 0;
-            this.npc.frame = utils.ACTION_WALK_DOWN_FRAME_IDLE;
-            this.start();
-          }
-          break;
-        case utils.ACTION_WALK_RIGHT:
-          if (animEnd || this.npc.x == this.game.world.width - this.npc.body.width) {
-            anim.stop();
-            // this.timer.destroy();
-            // this.game.time.events.destroy();
-            this.npc.body.velocity.x = 0;
-            this.npc.frame = utils.ACTION_WALK_RIGHT_FRAME_IDLE;
-            this.start();
-          }
-          break;
+      if(animEnd
+        || (this.npc.x == 0 && anim.name == utils.ACTION_WALK_LEFT)
+        || (this.npc.y == 0 && anim.name == utils.ACTION_WALK_UP)
+        || (this.npc.y == this.game.world.height - this.npc.body.height && anim.name == utils.ACTION_WALK_DOWN)
+        || (this.npc.x == this.game.world.width - this.npc.body.width && anim.name == utils.ACTION_WALK_RIGHT)
+        ){
+        this.restart();
       }
-    }
-    else {
-
+      else{
+        this.playAnim(this.animName);
+      }
     }
   }
 }
