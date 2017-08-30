@@ -1,9 +1,15 @@
 import NPC from './npc'
+import Player from './player'
+import _ from 'lodash'
+import * as utils from './utils'
 
 export default class Game{
   constructor(){
     this.npcs = [];
-    this.game = new Phaser.Game(1024, 800, Phaser.AUTO, '', {
+    this.player = null;
+    this.cursors = null;
+    // this.
+    this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
       preload: () => {
         this.preload()
       },
@@ -18,6 +24,7 @@ export default class Game{
 
   preload() {
     this.game.load.spritesheet('man', 'static/character.png', 64, 64, -1, 1);
+    this.game.load.spritesheet('woman', 'static/woman.png', 64, 64, -1, 1);
   }
 
   create() {
@@ -25,10 +32,19 @@ export default class Game{
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     // this.npcs = this.game.add.group();
     // this.npcs.enableBody = true;
-    this.npcs.push(new NPC(this.game));
-    this.npcs.push(new NPC(this.game));
-    this.npcs.push(new NPC(this.game));
-    this.npcs.push(new NPC(this.game));
+    // this.npcs.push(new NPC(this.game,{
+    //   x: 0,
+    //   y: 0,
+    // }));
+    // this.npcs.push(new NPC(this.game,{
+    //   x: this.game.world.width - 64,
+    //   y: 0,
+    // }));
+    this.player = new Player(this.game);
+
+    for (var i = 0; i < 8; i++) {
+      this.npcs.push(new NPC(this.game));
+    }
 
     // this.npcs.
   }
@@ -37,38 +53,19 @@ export default class Game{
     for (var i = 0; i < this.npcs.length; i++) {
       let npc = this.npcs[i];
       npc.update();
+      this.game.physics.arcade.collide(this.player.player, npc.npc, (player, n1) => {
+        let n = _.find(this.npcs, {npc: n1});
+        n.restart();
+      });
+      this.game.physics.arcade.collide(npc.npc, _.map(this.npcs, 'npc'), (npc1, npc2) => {
+        let n1 = _.find(this.npcs, {npc: npc1})
+        n1 && n1.restart();
+        let n2 = _.find(this.npcs, {npc: npc2})
+        n2 && n2.restart();
+        // npc.update()
+      });
     }
-//walking player
-    // player.body.velocity.x = 0;
-    // player.body.velocity.y = 0;
-
-    // if(cursors.up.isDown){
-    //     player.body.velocity.x = 0;
-    //     player.body.velocity.y = -130;
-    //     player.animations.play('up');
-    //     currentDirection = upStart;
-    // }
-    // else if(cursors.left.isDown){
-    //     player.body.velocity.x = -130;
-    //     player.body.velocity.y = 0;
-    //     player.animations.play('left');
-    //     currentDirection = leftStart;
-    // }
-    // else if(cursors.down.isDown){
-    //     player.body.velocity.x = 0;
-    //     player.body.velocity.y = 130;
-    //     player.animations.play('down');
-    //     currentDirection = downStart;
-    // }
-    // else if(cursors.right.isDown){
-    //     player.body.velocity.x = 130;
-    //     player.body.velocity.y = 0;
-    //     player.animations.play('right');
-    //     currentDirection = rightStart;
-    // }
-    // else{
-    //     player.frame = currentDirection;
-    // }
+    this.player.update();
 
   }
 
