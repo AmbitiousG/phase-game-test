@@ -14,7 +14,7 @@ for (var i = 1; i < 9; i++) {
     walkFrameRight.push(ACTION_WALK_RIGHT_FRAME_IDLE + i);
 }
 
-export const ACTION_WALK_FRAMERATE = 10;
+export const ACTION_WALK_FRAMERATE = 14;
 
 export const ACTION_WALK_UP = 'walkUp';
 export const ACTION_WALK_UP_FRAMES = walkFrameUp;

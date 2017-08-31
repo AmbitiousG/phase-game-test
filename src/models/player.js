@@ -50,7 +50,7 @@ export default class Player {
 
     if(this.keys.up.isDown ){
         this.player.body.velocity.x = 0;
-        this.player.body.velocity.y = -230;
+        this.player.body.velocity.y = -80;
         if(this.player.body.touching.up){
           this.player.body.reset(this.player.x, this.player.y);
         }
@@ -58,7 +58,7 @@ export default class Player {
         this.currentDirection = utils.ACTION_WALK_UP_FRAME_IDLE;
     }
     else if(this.keys.left.isDown){
-        this.player.body.velocity.x =  -230;
+        this.player.body.velocity.x =  -80;
         this.player.body.velocity.y = 0;
         if(this.player.body.touching.left){
           this.player.reset(this.player.x, this.player.y);
@@ -68,7 +68,7 @@ export default class Player {
     }
     else if(this.keys.down.isDown){
         this.player.body.velocity.x = 0;
-        this.player.body.velocity.y =  230;
+        this.player.body.velocity.y =  80;
         if(this.player.body.touching.down){
           this.player.reset(this.player.x, this.player.y);
         }
@@ -76,7 +76,7 @@ export default class Player {
         this.currentDirection = utils.ACTION_WALK_DOWN_FRAME_IDLE;
     }
     else if(this.keys.right.isDown){
-        this.player.body.velocity.x =  230;
+        this.player.body.velocity.x =  80;
         this.player.body.velocity.y = 0;
         if(this.player.body.touching.right){
           this.player.reset(this.player.x, this.player.y);
