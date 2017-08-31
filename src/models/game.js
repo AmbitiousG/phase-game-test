@@ -11,7 +11,7 @@ export default class Game{
     this.cursors = null;
     this.tank = null;
     // this.
-    this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+    this.game = new Phaser.Game(800, 640, Phaser.AUTO, '', {
       preload: () => {
         this.preload()
       },
@@ -27,12 +27,38 @@ export default class Game{
   preload() {
     this.game.load.spritesheet('man', 'static/character.png', 64, 64, -1, 1);
     this.game.load.spritesheet('woman', 'static/woman.png', 64, 64, -1, 1);
+    this.game.load.tilemap('map', 'static/map1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.image('map', 'static/General Sprites.png');
     this.game.load.spritesheet('general', 'static/General Sprites.png', 16, 16);
   }
 
   create() {
     //  We're going to be using physics, so enable the Arcade Physics system
+
+    this.map = this.game.add.tilemap('map');
+    this.map.addTilesetImage('map');
+
+    this.tank = new Tank(this.game);
+
+    this.layer = this.map.createLayer('brick');
+    this.layer3 = this.map.createLayer('water');
+
+    this.map.setCollision([17, 66, 92, 93, 70]);
+
+    this.layer.resizeWorld();
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
+
+
+
+
+
+
+
+
+
+
+
     // this.npcs.push(new NPC(this.game,{
     //   x: 0,
     //   y: 0,
@@ -47,7 +73,7 @@ export default class Game{
       this.npcs.push(new NPC(this.game));
     // }
 
-    this.tank = new Tank(this.game);
+    this.layer2 = this.map.createLayer('grass');
   }
 
   update() {
@@ -71,6 +97,24 @@ export default class Game{
       let n1 = _.find(this.npcs, {npc: npc1})
       n1 && n1.restart();
     })
+    this.game.physics.arcade.collide(this.tank.entity, [this.layer, this.layer3], (tank, tile) => {
+      if(tank.body.blocked.up){
+        tank.y += 0.5;
+        console.log('touched up');
+      }
+      else if(tank.body.blocked.left){
+        tank.x += 0.5;
+        console.log('touched left');
+      }
+      else if(tank.body.blocked.down){
+        tank.y -= 0.5;
+        console.log('touched down');
+      }
+      else if(tank.body.blocked.right){
+        tank.x -= 0.5;
+        console.log('touched right');
+      }
+    });
     this.tank.update();
     this.player.update();
 

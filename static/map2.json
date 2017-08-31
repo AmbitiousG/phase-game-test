@@ -1,0 +1,12 @@
+{ "columns":25,
+ "image":"General Sprites.png",
+ "imageheight":256,
+ "imagewidth":400,
+ "margin":0,
+ "name":"map",
+ "spacing":0,
+ "tilecount":400,
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset"
+}
