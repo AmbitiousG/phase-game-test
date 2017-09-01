@@ -2,7 +2,7 @@ export default class Tank {
   constructor(game, type) {
     this.game = game;
     this.entity = this.game.add.sprite(100, 100, 'general', 0);
-    this.entity.scale.set(2, 2);
+    // this.entity.scale.set(2, 2);
     this.game.physics.arcade.enable(this.entity);
     this.entity.body.collideWorldBounds = true;
     this.entity.body.setSize(15, 15, 0, 0);

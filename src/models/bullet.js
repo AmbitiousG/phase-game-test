@@ -10,28 +10,28 @@ export default class Bullet {
     switch(direction) {
       case 'top':
       this.direction = Bullet_Top;
-      this.vy = -100;
+      this.vy = -60;
       break;
       case 'left':
       this.direction = Bullet_Left;
-      this.vx = -100;
+      this.vx = -60;
       break;
       case 'down':
       this.direction = Bullet_Down;
-      this.vy = 100;
+      this.vy = 60;
       break;
       case 'right':
       this.direction = Bullet_Right;
-      this.vx = 100;
+      this.vx = 60;
       break;
       default:
       this.direction = Bullet_Right;
-      this.vx = 100;
+      this.vx = 60;
     }
     // this.direction = direction;
     this.game = game;
-    this.entity = this.game.add.sprite(300, 100, 'bullets', this.direction);
-    this.entity.scale.set(2, 2);
+    this.entity = this.game.add.sprite(150, 50, 'bullets', this.direction);
+    // this.entity.scale.set(2, 2);
 
     this.game.physics.arcade.enable(this.entity);
     this.entity.body.collideWorldBounds = true;

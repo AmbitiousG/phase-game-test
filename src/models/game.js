@@ -37,6 +37,7 @@ export default class Game{
 
   create() {
     //  We're going to be using physics, so enable the Arcade Physics system
+    // this.game.world.scale.set(2, 2);
 
     this.map = this.game.add.tilemap('mapConfig');
     this.map.addTilesetImage('map');
@@ -45,9 +46,9 @@ export default class Game{
     this.tank = new Tank(this.game);
 
     //add fluid water
-    this.waterBg = this.game.add.tileSprite(16 * 20, 16 * 14, 16 * 22, 16 * 2, 'general', 91);
-    this.waterBg.tileScale.x = 2;
-    this.waterBg.tileScale.y = 2;
+    this.waterBg = this.game.add.tileSprite(16 * 10, 16 * 7, 16 * 11, 16 * 1, 'general', 91);
+    // this.waterBg.tileScale.x = 2;
+    // this.waterBg.tileScale.y = 2;
 
     this.game.physics.arcade.enable(this.waterBg);
     this.waterBg.animations.add('wave', [91, 92]);
@@ -55,7 +56,7 @@ export default class Game{
     this.waterBg.body.immovable = true;
 
     this.layer = this.map.createLayer('brick');
-    this.layer.setScale(2,2);
+    // this.layer.setScale(2,2);
     // this.layer3 = this.map.createLayer('water');
 
     this.map.setCollision([17, 66, 92, 93, 70]);
