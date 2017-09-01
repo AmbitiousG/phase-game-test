@@ -13,7 +13,7 @@ export default class Game{
     this.tank = null;
     this.bullets = [];
     // this.
-    this.game = new Phaser.Game(960, 640, Phaser.AUTO, '', {
+    this.game = new Phaser.Game(480, 320, Phaser.AUTO, '', {
       preload: () => {
         this.preload()
       },
@@ -67,34 +67,28 @@ export default class Game{
     this.Bullets = this.game.add.group();
     this.count = 0;
     let direction = 'right';
-    this.game.time.events.loop(1000, () => {
-      if(this.count > 3){
-        this.count = 0
-      }
-      switch(this.count) {
-        case 0:
-        direction = 'right'
-        break;
-        case 1:
-        direction = 'down'
-        break;
-        case 2:
-        direction = 'left'
-        break;
-        case 3:
-        direction = 'top'
-        break;
-      }
+    // this.game.time.events.loop(1000, () => {
+    //   if(this.count > 3){
+    //     this.count = 0
+    //   }
+    //   switch(this.count) {
+    //     case 0:
+    //     direction = 'right'
+    //     break;
+    //     case 1:
+    //     direction = 'down'
+    //     break;
+    //     case 2:
+    //     direction = 'left'
+    //     break;
+    //     case 3:
+    //     direction = 'top'
+    //     break;
+      // }
       this.count++;
       this.bullets.push(new Bullet(this.game, {x: 0, y: 0, direction}));
       this.Bullets.add(_.last(this.bullets).entity);
-    })
-
-
-
-
-
-
+    // })
 
 
 
@@ -140,8 +134,14 @@ export default class Game{
     this.game.physics.arcade.collide(this.tank.entity, [this.layer, this.waterBg], (tank, tile) => {
     });
 
-    this.game.physics.arcade.collide(this.Bullets, [this.layer, this.tank.entity], (bullet, tank) => {
-      bullet.kill();
+    this.game.physics.arcade.collide(this.Bullets, [this.layer, this.tank.entity], (bullet, obj) => {
+      // debugger;
+      if(bullet.key == 'bullets'){
+        bullet.kill();
+      }
+      else {
+        obj.kill();
+      }
     })
 
     this.tank.update();

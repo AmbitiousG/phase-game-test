@@ -1,7 +1,9 @@
+import Weapon from './weapon'
+
 export default class Tank {
   constructor(game, type) {
     this.game = game;
-    this.entity = this.game.add.sprite(100, 100, 'general', 0);
+    this.entity = this.game.add.sprite(250, 50, 'general', 0);
     // this.entity.scale.set(2, 2);
     this.game.physics.arcade.enable(this.entity);
     this.entity.body.collideWorldBounds = true;
@@ -12,6 +14,8 @@ export default class Tank {
     this.entity.animations.add('down', [4, 5], 10, true);
     this.entity.animations.add('right', [6, 7], 10, true);
 
+    this.weapon = new Weapon(this.game, this.entity);
+
     this.currentDirection = null;
 
     this.keys = this.game.input.keyboard.addKeys({
@@ -19,7 +23,7 @@ export default class Tank {
       'down': Phaser.KeyCode.S,
       'left': Phaser.KeyCode.A,
       'right': Phaser.KeyCode.D,
-      'sc': Phaser.KeyCode.J
+      'fire': Phaser.KeyCode.SPACEBAR
     });
   }
 
@@ -59,7 +63,10 @@ export default class Tank {
       }
       this.entity.animations.play('right');
       this.currentDirection = 7;
-    } else {
+    } else if (this.keys.fire.isDown){
+      this.weapon.fire(this.currentDirection);
+    }
+    else {
       this.entity.frame = this.currentDirection;
     }
   }
