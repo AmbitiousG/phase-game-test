@@ -63,11 +63,13 @@ export default class Tank {
       }
       this.entity.animations.play('right');
       this.currentDirection = 7;
-    } else if (this.keys.fire.isDown){
-      this.weapon.fire(this.currentDirection);
     }
     else {
       this.entity.frame = this.currentDirection;
+    }
+
+    if (this.keys.fire.isDown){
+      this.weapon.fire(this.currentDirection);
     }
   }
 
