@@ -3,7 +3,7 @@ import Weapon from './weapon'
 export default class Tank {
   constructor(game, type) {
     this.game = game;
-    this.entity = this.game.add.sprite(250, 50, 'general', 0);
+    this.entity = this.game.add.sprite(250, 50, 'general', 4);
     // this.entity.scale.set(2, 2);
     this.game.physics.arcade.enable(this.entity);
     this.entity.body.collideWorldBounds = true;
@@ -23,16 +23,27 @@ export default class Tank {
       'down': Phaser.KeyCode.S,
       'left': Phaser.KeyCode.A,
       'right': Phaser.KeyCode.D,
-      'fire': Phaser.KeyCode.SPACEBAR
+      'fire': Phaser.KeyCode.SPACEBAR,
+      'one': Phaser.KeyCode.ONE,
+      'two': Phaser.KeyCode.TWO,
     });
+    this.keys.one.onDown.add(() => {
+      this.entity.x += 0.5;
+    }, this)
+    this.keys.two.onDown.add(() => {
+      this.entity.y += 0.5;
+    }, this)
   }
 
   update() {
     this.entity.body.velocity.x = 0;
     this.entity.body.velocity.y = 0;
+    if(this.keys.one.isDown){
+
+    }
 
     if (this.keys.up.isDown) {
-      this.entity.body.velocity.x = 0;
+      // this.entity.body.velocity.x = 0;
       this.entity.body.velocity.y = -100;
       if (this.entity.body.touching.up) {
         this.entity.body.reset(this.entity.x, this.entity.y);
@@ -41,14 +52,14 @@ export default class Tank {
       this.currentDirection = 1;
     } else if (this.keys.left.isDown) {
       this.entity.body.velocity.x = -100;
-      this.entity.body.velocity.y = 0;
+      // this.entity.body.velocity.y = 0;
       if (this.entity.body.touching.left) {
         this.entity.reset(this.entity.x, this.entity.y);
       }
       this.entity.animations.play('left');
       this.currentDirection = 3;
     } else if (this.keys.down.isDown) {
-      this.entity.body.velocity.x = 0;
+      // this.entity.body.velocity.x = 0;
       this.entity.body.velocity.y = 100;
       if (this.entity.body.touching.down) {
         this.entity.reset(this.entity.x, this.entity.y);
@@ -57,7 +68,7 @@ export default class Tank {
       this.currentDirection = 5;
     } else if (this.keys.right.isDown) {
       this.entity.body.velocity.x = 100;
-      this.entity.body.velocity.y = 0;
+      // this.entity.body.velocity.y = 0;
       if (this.entity.body.touching.right) {
         this.entity.reset(this.entity.x, this.entity.y);
       }
@@ -71,6 +82,13 @@ export default class Tank {
     if (this.keys.fire.isDown){
       this.weapon.fire(this.currentDirection);
     }
+
+    this.checkBullets();
+  }
+
+  checkBullets() {
+    // console.log(this.weapon.entity.bullets.children.length)
+    
   }
 
 }

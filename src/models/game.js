@@ -108,6 +108,7 @@ export default class Game{
     // }
 
     // this.layer2 = this.map.createLayer('grass');
+    this.createBounds();
   }
 
   update() {
@@ -133,20 +134,65 @@ export default class Game{
     })
     this.game.physics.arcade.collide(this.tank.entity, [this.layer, this.waterBg], (tank, tile) => {
     });
-
-    this.game.physics.arcade.collide(this.Bullets, [this.layer, this.tank.entity], (bullet, obj) => {
+    this.game.physics.arcade.collide(this.tank.weapon.entity.bullets, this.layer, (bullet, tile) => {
+      this.map.removeTile(tile.x, tile.y);
+      bullet.kill();
+    }, null, this);
+    this.game.physics.arcade.overlap(this.waterBg, this.tank.weapon.entity.bullets, (tile, bullet) => {
       // debugger;
-      if(bullet.key == 'bullets'){
-        bullet.kill();
-      }
-      else {
-        obj.kill();
-      }
-    })
+      // console.log(bullet)
+      // bullet.parent.addChild(bullet);//bring to top
+    }, null, this);
+
+    this.game.physics.arcade.overlap(this.bounds, this.tank.weapon.entity.bullets, (tile, bullet) => {
+      // debugger;
+      bullet.kill();
+    }, null, this);
+
+
+
+
+    // this.game.physics.arcade.collide(this.Bullets, [this.layer, this.tank.entity], (bullet, obj) => {
+    //   // debugger;
+    //   if(bullet.key == 'bullets'){
+    //     bullet.kill();
+    //   }
+    //   else {
+    //     obj.kill();
+    //   }
+    // })
 
     this.tank.update();
     this.player.update();
 
+  }
+
+  createBounds() {
+    this.bounds = [];
+    _.each(['up', 'left', 'down', 'right'], direction => {
+      this.createBound(direction)
+    })
+  }
+
+  createBound(direction){
+    let bound = this.game.add.sprite(0, 0, null);
+    this.bounds.push(bound);
+    this.game.physics.arcade.enable(bound);
+    switch(direction){
+      case 'up':
+      bound.body.setSize(this.game.world.width, 0.1, 0, 0);
+      break;
+      case 'left':
+      bound.body.setSize(0.1, this.game.world.height, 0, 0);
+      break;
+      case 'down':
+      bound.body.setSize(this.game.world.width, 0.1, 0, this.game.world.height - 0.1);
+      break;
+      case 'right':
+      bound.body.setSize(0.1, this.game.world.height, this.game.world.width - 0.1, 0);
+      break;
+    }
+    return bound
   }
 
 }

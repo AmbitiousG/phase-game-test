@@ -8,8 +8,9 @@ export default class Weapon {
     this.game = game;
     this.tank = tank;
     this.entity = this.game.add.weapon();
-    this.entity.createBullets(-1, 'bullets', Bullet_Top);
+    this.entity.createBullets(-1, 'bullets', Bullet_Right);
     this.entity.bulletCollideWorldBounds = true;
+    this.entity.bulletKillType = Phaser.Weapon.KILL_NEVER;
     this.entity.bulletSpeed = 110;
     this.entity.fireRate = 300;
     this.entity.bulletLifespan = 1000;
@@ -22,13 +23,15 @@ export default class Weapon {
     this.entity.trackOffset.x = 8;
     this.entity.trackOffset.y = 8;
 
+    this.entity.setBulletBodyOffset(4, 4, 2, 6);
+    // debugger;
 
   }
 
   fire(direction){
     this.entity.trackOffset.x = 8;
     this.entity.trackOffset.y = 8;
-    let frame = Bullet_Right;
+    // let frame = Bullet_Right;
     let angle = null;
     let firePoint = {
       x: this.tank.centerX,
@@ -58,7 +61,7 @@ export default class Weapon {
       this.entity.trackOffset.x = 16;
       break;
     }
-    this.entity.bulletFrame = frame;
+    // this.entity.bulletFrame = frame;
     this.entity.fireAngle = angle;
     // this.entity.fireFrom = new Phaser.Rectangle(firePoint.x, firePoint.y, 1, 1);
     this.entity.fire();
