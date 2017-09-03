@@ -8,7 +8,8 @@ export default class Weapon {
     this.game = game;
     this.tank = tank;
     this.entity = this.game.add.weapon();
-    this.entity.createBullets(-1, 'bullets', Bullet_Right);
+    // this.entity.createBullets(-1, 'bullet', Bullet_Right);
+    this.entity.createBullets(-1, 'bullet');
     this.entity.bulletCollideWorldBounds = true;
     this.entity.bulletKillType = Phaser.Weapon.KILL_NEVER;
     this.entity.bulletSpeed = 110;
@@ -23,7 +24,7 @@ export default class Weapon {
     this.entity.trackOffset.x = 8;
     this.entity.trackOffset.y = 8;
 
-    this.entity.setBulletBodyOffset(4, 4, 2, 6);
+    this.entity.setBulletBodyOffset(1, 6, 6, 4);
     // debugger;
 
   }

@@ -32,7 +32,7 @@ export default class Game{
     this.game.load.tilemap('mapConfig', 'static/map3.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('map', 'static/General Sprites.png');
     this.game.load.spritesheet('general', 'static/General Sprites.png', 16, 16);
-    this.game.load.spritesheet('bullets', 'static/General Sprites.png', 8, 16);
+    this.game.load.spritesheet('bullet', 'static/bullet.png', 8, 16);
   }
 
   create() {
@@ -43,7 +43,6 @@ export default class Game{
     this.map.addTilesetImage('map');
     // this.map.addTilesetImage('bullets');
 
-    this.tank = new Tank(this.game);
 
     //add fluid water
     this.waterBg = this.game.add.tileSprite(16 * 10, 16 * 7, 16 * 11, 16 * 1, 'general', 91);
@@ -59,6 +58,7 @@ export default class Game{
     // this.layer.setScale(2,2);
     // this.layer3 = this.map.createLayer('water');
 
+    this.tank = new Tank(this.game);
     this.map.setCollision([17, 66, 92, 93, 70]);
 
     this.layer.resizeWorld();
@@ -85,9 +85,9 @@ export default class Game{
     //     direction = 'top'
     //     break;
       // }
-      this.count++;
-      this.bullets.push(new Bullet(this.game, {x: 0, y: 0, direction}));
-      this.Bullets.add(_.last(this.bullets).entity);
+      // this.count++;
+      // this.bullets.push(new Bullet(this.game, {x: 0, y: 0, direction}));
+      // this.Bullets.add(_.last(this.bullets).entity);
     // })
 
 
